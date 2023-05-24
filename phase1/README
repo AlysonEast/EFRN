@@ -1,0 +1,18 @@
+This folder contains the workflow for the First steps of network analysis
+
+1) Run process_data_poly.sh
+fields from shell file
+	EXPORT_PCA_DATA: No longer in use, as PCA's have been removed from the workflow
+	EXPORT_NA_DATA: Needed for standardizing data. Writes out all environmental variables as ascii file and comuted mean and std devs for the entire US
+	IMPORT_POLYGON: Reading in the polygon file for the EFRN sites
+	RASTERIZE_FORESTS: Rastarizes polygons of EFRN sites
+	EXTRACT_DATA_AT_EF: Uses UNIVAR to calcualte averages within EFRN polygons
+	RESTRUCTURE_UNIVAR: Pulls the means out of the UNIVAR files and and standardizes them agenst NA_DATA
+	CALCULATE_REPRESENTATIVENESS: Runs Jitu's oridnation code and stores the outputs
+	IMPORT_REPRESENTATIVENESS_MAPS: generates representatovness maps
+	IMPORT_CONSTITUENCY_MAPS: generates constituency maps
+	GENERATE_DRIVERS_MAP: Uses R script to take row maxs and means for each pixel in CONUS
+		Uses netrep_drivers.R
+	CALC_SRS: Clips to SRS extent
+	EXPORT_TIF: Exports Grass rasters to tif for local download
+
