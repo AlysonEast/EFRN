@@ -16,3 +16,20 @@ fields from shell file
 	CALC_SRS: Clips to SRS extent
 	EXPORT_TIF: Exports Grass rasters to tif for local download
 
+2) identify_new_sites.sh
+ - Firest thing to run computes a histogram of the distribution of forested NETREP values, and gives the median and 25%. The 25th percentile is the cutoff for poor representation and needs to be manually entered into the file poor_rep_lims.txt 
+	MAP_POOR_REP: Genreates a binary of firested poorly represetned sites.
+		-Relient on poor_rep_lims.txt. Needs to be manually updated
+	ID_NEW_SITES: Finds sites that overlap with poorly represented cells and writes out a shapfile of those sites to export, and takes site averages to feed into netrep calculations
+	CALC_NETREP: Runs Jitu's ordination script and calculates average representation for each site one site at a time in a forloop
+	CALC_FINAL: may not be nessiary... 
+ 
+3) identify_new_sites_SRS.sh
+	-Exactily the same as 2, but clipped to SRS with SRS attached to all outputs and inputs
+	-Also needs poor_rep_lims_SRS.txt manually updated
+
+4) Graphics Generation:
+ summary_plots_data.sh
+	-Generates datasets in ascii formate from grass data to feed into R for graphics for the final MS
+ summary_plots.R
+	-Uses outputs from above to generate graphics and outputs them to ../figures
