@@ -17,7 +17,7 @@ num=5
 
 g.region rast=wc2.0_bio_30s_01_ann_temp
  r.mask SRS_forest_1km_NA --o
-#r.quantile input=exp_forests.netrep_norm percentile=25
+r.quantile input=exp_forests_phase1.netrep_norm percentile=25
 
 
 #############################################################
@@ -26,11 +26,10 @@ then
 
 CASE=${region}_poor_rep
  g.region rast=wc2.0_bio_30s_01_ann_temp
- r.mask USFS_regions maskcats=${num} --o
+ r.mask SRS_forest_1km_NA --o
 
- r.reclass input=exp_forests_phase1.netrep_norm_int output=${CASE} rules=poor_rep_lims_${SRS}.txt --o
- r.mask conus_forest_1km_NA --o
- r.mapcalc "conus_poor_rep = conus_poor_rep"
+ r.reclass input=exp_forests_phase1.netrep_norm_int output=${CASE} rules=poor_rep_lims_${region}.txt --o
+ r.mapcalc "${region}_poor_rep = ${region}_poor_rep"
 
 d.mon x3
 d.rast ${CASE}
@@ -65,7 +64,7 @@ r.mapcalc "PADUS_Forested = PADUS_Forested"
 
 
 r.mask -r
-r.cats ${CASE} >site_nums_${region}
+r.cats PADUS_Forested >site_nums_${region}
 
 sites=`awk '{print $1}' site_nums_${region} | paste -s -d, `
 v.extract input=PADUS_Forested output=${CASE} type=area list=${sites} --o

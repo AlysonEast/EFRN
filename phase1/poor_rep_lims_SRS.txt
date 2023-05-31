@@ -1,2 +1,2 @@
-0 thru 70 = 1
-70 thru 100 = NULL
+0 thru 75 = 1
+75 thru 100 = NULL

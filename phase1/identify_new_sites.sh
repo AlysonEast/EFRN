@@ -7,10 +7,15 @@ STANDARDIZE=/home/jbk/bin/standardize.${MACHINE}
 NETWORK_REPRESENTATIVENESS=/home/jbk/bin/network_representativeness
 
 
-MAP_POOR_REP=0
-ID_NEW_SITES=0
+MAP_POOR_REP=1
+ID_NEW_SITES=1
 CALC_NETREP=1
 CALC_FINAL=0
+
+
+g.region rast=wc2.0_bio_30s_01_ann_temp
+ r.mask conus_forest_1km_NA --o
+r.quantile input=exp_forests_phase1.netrep_norm percentile=25,50
 
 #############################################################
 if [ $MAP_POOR_REP -eq 1 ]
@@ -57,7 +62,7 @@ r.mapcalc "PADUS_Forested = PADUS_Forested"
 
 
 r.mask -r
-r.cats ${CASE} >site_nums
+r.cats PADUS_Forested >site_nums
 
 sites=`awk '{print $1}' site_nums | paste -s -d, `
 v.extract input=PADUS_Forested output=${CASE} type=area list=${sites} --o

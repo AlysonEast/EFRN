@@ -79,16 +79,16 @@ dev.off()
 
 #Netrep density plot
 xd <- data.frame(density(driver_netrep$netrep)[c("x", "y")])
-quantile <- quantile(xd$y, prob=0.25)
+quantile <- quantile(driver_netrep$netrep, prob=0.25)
 
-png(file="../figures/netrep_hist.png", width=10, height=3.5, units = "in", res=300) 
+png(file="../figures/netrep_hist.png", width=10, height=3, units = "in", res=300) 
 ggplot(data=driver_netrep, aes(x=netrep)) + 
   geom_density() + 
-#  geom_area(data = subset(xd, x < quantile), fill = "#f9634a") +
+  geom_area(data = subset(xd, x < quantile), aes(x=x, y=y), fill = "#f9634a", alpha=0.75) +
   geom_vline(xintercept = median(driver_netrep$netrep), linetype=2, col="#3291c5") +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0), limits = c(0,5)) +
-  theme_bw()
+  ylab("Density")+ theme_bw()
 dev.off()
 
 #var density for top 3 drivers by region
@@ -112,11 +112,11 @@ head(driver_vars)
 driver_vars_sub<-subset(driver_vars, driver_vars=="NRS" & variable=="MeanAnnTemp" |
                           driver_vars=="NRS" & variable=="Nitrogen" |
                           driver_vars=="NRS" & variable=="Carbon" |
-                          driver_vars=="PNW" & variable=="Carbon" |
+                          driver_vars=="PNW" & variable=="MeanAnnTemp" |
                           driver_vars=="PNW" & variable=="CanopyHeight" |
                           driver_vars=="PNW" & variable=="Biomass" |
                           driver_vars=="PSW" & variable=="MeanAnnTemp" |
-                          driver_vars=="PSW" & variable=="Carbon" |
+                          driver_vars=="PSW" & variable=="CanopyHeight" |
                           driver_vars=="PSW" & variable=="Biomass" |
                           driver_vars=="RMRS" & variable=="MeanAnnTemp" |
                           driver_vars=="RMRS" & variable=="DiurnalRange" |
@@ -128,7 +128,7 @@ driver_vars_sub<-subset(driver_vars, driver_vars=="NRS" & variable=="MeanAnnTemp
 driver_vars_sub$value[driver_vars_sub$value >500 & driver_vars_sub$variable == 'Nitrogen'] <- NA
 driver_vars_sub$value[driver_vars_sub$value >500 & driver_vars_sub$variable == 'Carbon'] <- NA
 
-png(file="../figures/var_hists.png", width=9, height=12, units = "in", res=300) 
+png(file="../figures/var_hists.png", width=9, height=11, units = "in", res=300) 
 ggplot(data=driver_vars_sub, alpha=0.55, aes(fill=in_ef, col=in_ef, x=value)) + 
   geom_density(alpha=0.55) + 
   scale_color_manual(values = c("#138a2c","#88422F"), labels = c("Outside Experimental Forests","In Experimental Forests"))+
