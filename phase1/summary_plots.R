@@ -91,6 +91,16 @@ ggplot(data=driver_netrep, aes(x=netrep)) +
   ylab("Density")+ theme_bw()
 dev.off()
 
+png(file="../figures/netrep_hist_noshade.png", width=10, height=3, units = "in", res=300) 
+ggplot(data=driver_netrep, aes(x=netrep)) + 
+  geom_density() + 
+  geom_area(data = subset(xd, x < quantile), aes(x=x, y=y), fill = "#f9634a", alpha=0) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,5)) +
+  ylab("Density")+ theme_bw()
+dev.off()
+
+
 #var density for top 3 drivers by region
 
 driver_vars<-read.delim("./vars_netrep_region_efs", sep="",header=FALSE)
