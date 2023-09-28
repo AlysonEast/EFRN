@@ -32,7 +32,7 @@ then
 
  CASE=exp_forests_phase1
  r.recode input=${CASE}.netrep_norm output=${CASE}.quartiles rules=quantile_reclass.txt --o
-
+ r.out.gdal in=${CASE}.quartiles out=./export/${CASE}.quartiles.tif type=Float64 format=GTiff --o
 fi
 ############################################################################
 if [ $ZONAL_SUMMARIES -eq 1 ]
