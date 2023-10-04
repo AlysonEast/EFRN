@@ -62,6 +62,8 @@ mu <- ddply(df1, c("quarter","regionName"), summarise, grp.mean=median(biomass))
 mu$quarter<-as.factor(mu$quarter)
 mu$regionName<-as.factor(mu$regionName)
 
+ag$Mg<-(ag$x*100)
+
 p1<-ggplot(data=df1, aes(x=biomass)) +
         geom_density(aes(fill=quarter, alpha=quarter), col="#504B49") + theme_bw() +
         geom_vline(data= mu, aes(xintercept = grp.mean, col=quarter)) +
@@ -70,6 +72,7 @@ p1<-ggplot(data=df1, aes(x=biomass)) +
 	scale_alpha_manual(name=NULL,labels = c("Bottom 25th","25-50th","50-75th","Top 25th"),values=c(0.5,0.9,0.6,0.5))  +
 	scale_x_continuous(expand=c(0,0), limits=c(0,max(df1$biomass))) +
 	scale_y_continuous(expand=c(0,0)) +
+	xlab("Aboveground Biomass (MgC/ha)") +
         facet_wrap(~regionName, scales = "free_y", nrow=1) +
         theme(legend.position = c(0.73, 0.73))
 p2<-ggplot(data=ag, aes(y=x, x=quarter)) +
