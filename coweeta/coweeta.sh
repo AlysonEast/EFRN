@@ -11,8 +11,9 @@ CREATE_SITE_KEY=0
 CALC_COWEETA=0
 ID_COMPETING=0
 MAP_COMPETING=0 
-MAP_INDIVIDUAL_LOOP=1 
-IDIVIDUAL_BINARY=1
+MAP_INDIVIDUAL_LOOP=0 
+IDIVIDUAL_BINARY=0
+BINARY_AREA=1
 #############################################################                                                                               
 if [ $CREATE_SITE_KEY -eq 1 ]
 then
@@ -146,3 +147,26 @@ r.out.gdal in=EFRN_sumofbinary out=./binary_tifs/EFRN_sumofbinary.tif type=Byte 
 
 
 fi
+
+################################################################################
+if [ $BINARY_AREA -eq 1 ]
+then
+
+ g.region rast=wc2.0_bio_30s_01_ann_temp
+ r.mask conus_forest_1km_NA --o
+
+echo "site     acre">binary_summary
+
+  for((s=1; s<80; s++)) do
+   site=`sed -n "$((s+1))p" site_count | awk '{print $1}' | tr -d '"'`
+   echo "processing ${site}"
+   r.report ${site}_binary units=a -h | awk 'BEGIN {FS="|"}; {print $4}' | head -n -4 | sed -e '1,5d'>>binary_summary
+   sed -i "$ s/^/${site}/" binary_summary
+  done
+
+fi
+################################################################################
+g.region rast=wc2.0_bio_30s_01_ann_temp
+ r.mask conus_forest_1km_NA --o
+
+r.stats -1gn input=EFRN_sumofbinary_forest,Coweeta_Hydrologic_binary,Bent_Creek_binary,Blue_Valley_binary>EFRN_sumofbinary_Coweeta.ascii

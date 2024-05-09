@@ -8,6 +8,10 @@ export GISRC=/home/1te/.grassrc6.data
 
 r.report exp_forests_phase1.constituency units=a -h | awk 'BEGIN {FS="|"}; {print $2" "$4}' | head -n -4 | sed -e '1,4d' >constit_area
 
+r.mask conus_poor_rep --o
+r.report exp_forests_phase1.constituency units=a -h | awk 'BEGIN {FS="|"}; {print $2" "$4}' | head -n -4 | sed -e '1,4d'>constis_area_poorrep
+
+ r.mask conus_forest_1km_NA --o
 r.stats -1gn input=exp_forests_phase1.netrep_norm,USFS_regions,exp_forests_phase1.constituency >constit_netrep
 
 r.stats -1gn input=exp_forests_phase1.netrep_drivers_max,exp_forests_phase1.netrep_drivers_max_value,exp_forests_phase1.netrep_norm,USFS_regions >driver_netrep

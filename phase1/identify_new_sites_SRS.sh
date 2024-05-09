@@ -7,8 +7,8 @@ STANDARDIZE=/home/jbk/bin/standardize.${MACHINE}
 NETWORK_REPRESENTATIVENESS=/home/jbk/bin/network_representativeness
 
 
-MAP_POOR_REP=0
-ID_NEW_SITES=0
+MAP_POOR_REP=1
+ID_NEW_SITES=1
 CALC_NETREP=1
 CALC_FINAL=0
 
