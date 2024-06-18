@@ -8,7 +8,7 @@ df<-read.delim("./constit_netrep_changephase1phase0", sep="", header = TRUE)
 head(df)
 str(df)
 
-
+median(df$phase0_netrep_norm)
 
 
 #Netrep density plot
